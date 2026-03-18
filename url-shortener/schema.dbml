@@ -1,0 +1,20 @@
+/**
+ * This schema does not support tracking clicks per ip, 
+ * If we wanted to do that we would add a separate table with the columns
+ * id | short_url_id ref:> short_urls.id | ip_address
+ * and insert a record for every new ip
+ */
+
+Table short_urls {
+  id int [pk, not null]
+  long_url varchar(8000) [not null]
+  short_url_id varchar(100) [not null]
+  clicks longint [not null, default: 0]
+  expires_at timestamp
+  created_at timestamp [not null, default: `now()`]
+
+  Indexes {
+    short_url_id [unique]
+  }
+}
+
