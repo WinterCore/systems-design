@@ -1,0 +1,5 @@
+Table players {
+    id int [pk, not null]
+    name varchar(255) [not null]
+    score longint [not null]
+}
