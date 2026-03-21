@@ -18,8 +18,11 @@ Here we have a dual write concern.
 
 ### Response
 204: Success
+
 422: When delta is negative which is not allowed
+
 404: User not found
+
 500: Update failed
 
 ## GET /top-100

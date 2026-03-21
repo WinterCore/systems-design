@@ -16,7 +16,6 @@
 - Fetching a player's rank can be easily done with the `ZREVRANK` **Redis** command
 - Getting the top/bottom players by score can be easily done with `ZREVRANGE`/`ZRANGE`
 - Updates to scores can be done with `ZADD`.
-- 
 
 ## Requirements
 > Handling 1,000 score updates per second without the leaderboard reads becoming slow

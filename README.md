@@ -10,8 +10,9 @@ Practicing backend systems design — schema, API design, data modeling, caching
 
 ## Exercises
 
-| # | Exercise | Status |
-|---|----------|--------|
-| 1 | [URL Shortener](url-shortener/task.md) | Done |
-| 2 | [Leaderboard](leaderboard/task.md) | Done |
-| 3 | [Paste Bin](paste-bin/task.md) | Not started |
+| # | Exercise | Difficulty | Status |
+|---|----------|------------|--------|
+| 1 | [URL Shortener](001-url-shortener/task.md) | Easy | Done |
+| 2 | [Leaderboard](002-leaderboard/task.md) | Easy | Done |
+| 3 | [Paste Bin](003-paste-bin/task.md) | Easy | Done |
+| 4 | Rate Limiter | Medium | To be discussed |

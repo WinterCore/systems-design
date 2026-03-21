@@ -17,3 +17,5 @@ Design a paste bin service where users can share text snippets.
 1. Database schema (tables, columns, types, indexes)
 2. API endpoints (method, path, request/response bodies)
 3. One paragraph explaining how you'd handle storage efficiently when the system has 50 million pastes
+
+

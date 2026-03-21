@@ -1,0 +1,25 @@
+enum Visibility {
+    public
+    private
+}
+
+Table pastes {
+    id bigint [pk]
+    short_id varchar(255) [not null]
+    visibility Visibility [not null]
+
+    // varchar to keep it flexible if we want to add more later on
+    language varchar(255) [not null]
+    title varchar(255) [not null]
+    content_snippet varchar(255) [not null]
+
+    expires_at timestamp
+    uploaded boolean [not null, default: false]
+    created_at timestamp [not null, default: `now()`]
+
+    Indexes {
+        (uploaded, visibility, expires_at, id)
+        uploaded
+        expires_at
+    }
+}
