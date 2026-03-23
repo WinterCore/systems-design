@@ -15,4 +15,5 @@ Practicing backend systems design — schema, API design, data modeling, caching
 | 1 | [URL Shortener](001-url-shortener/task.md) | Easy | Done |
 | 2 | [Leaderboard](002-leaderboard/task.md) | Easy | Done |
 | 3 | [Paste Bin](003-paste-bin/task.md) | Easy | Done |
-| 4 | Rate Limiter | Medium | To be discussed |
+| 4 | [Rate Limiter](004-rate-limiter/task.md) | Medium | Done |
+| 5 | Notification System | Medium | To be discussed |
