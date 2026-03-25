@@ -1,3 +1,6 @@
+/**
+ * BACKEND TABLES
+ */
 Table users {
     id int [pk]
     name varchar(255) [not null]
@@ -6,75 +9,6 @@ Table users {
     type varchar(255) [not null]
 
     // ...rest of user metadata
-}
-
-Table user_notification_preferences {
-    user_id int [not null, unique, ref:> users.id]
-
-    /**
-     * One bitmask column per notification type. Each one indicates which channels are enabled for that type. 
-     * 1 << 0 -> in-app
-     * 1 << 1 -> email
-     * 1 << 2 -> push
-     */
-    order_channels shortint [not null, default: 7]
-    promotional_channels shortint [not null, default: 0]
-    price_update_channels shortint [not null, default: 0]
-
-    Indexes {
-        // One index per notification type bitmask column
-        order_channels
-        promotional_channels
-        price_update_channels
-    }
-}
-
-Table notifications {
-    id int [pk]
-    title varchar(255) [not null]
-    // order, promotion, etc.
-    type varchar(255) [not null]
-    // notification data based on type
-    data jsonb [not null]
-    user_id int [not null, ref:> users.id]
-    created_at timestamp [not null, default: `now()`]
-    is_read boolean [not null, default: `false`]
-
-    Indexes {
-        user_id
-    }
-}
-
-Table notification_deliveries {
-    id int [pk]
-    notification_id int [not null, ref:> notifications.id]
-
-    // in-app, push, email
-    channel varchar(255) [not null]
-
-    // pending, processing, success, failed
-    status varchar(255) [not null]
-
-    retry_count shortint [not null, default: 0]
-    failed_at timestamp
-
-    updated_at timestamp [not null, default: `now()`]
-    created_at timestamp [not null, default: `now()`]
-
-    Indexes {
-        (notification_id, channel) [unique]
-        (channel, status, created_at)
-    }
-}
-
-// Single record table for storing config
-Table notifications_config {
-    id int [pk]
-
-    // Priority column per notification type. Lower is higher
-    order_priority shortint [not null]
-    promotional_priority shortint [not null]
-    price_update_priority shortint [not null]
 }
 
 Table notification_campaigns {
@@ -98,4 +32,77 @@ Table notification_campaigns {
     user_id_checkpoint int
 
     created_at timestamp [not null, default: `now()`]
+}
+
+Table user_notification_preferences {
+    user_id int [not null, unique, ref:> users.id]
+
+    /**
+     * One bitmask column per notification type. Each one indicates which channels are enabled for that type. 
+     * 1 << 0 -> in-app
+     * 1 << 1 -> email
+     * 1 << 2 -> push
+     */
+    order_channels shortint [not null, default: 7]
+    promotional_channels shortint [not null, default: 0]
+    price_update_channels shortint [not null, default: 0]
+
+    Indexes {
+        // One index per notification type bitmask column
+        order_channels
+        promotional_channels
+        price_update_channels
+    }
+}
+
+// Single record table for storing config
+Table notifications_config {
+    id int [pk]
+
+    // Priority column per notification type. Lower is higher
+    order_priority shortint [not null]
+    promotional_priority shortint [not null]
+    price_update_priority shortint [not null]
+}
+
+/**
+ *
+ */
+Table notifications {
+    id int [pk]
+    title varchar(255) [not null]
+    content text [not null]
+
+    // Lower is higher
+    priority shortint [not null, default: 0]
+    is_read boolean [not null, default: `false`]
+
+    created_at timestamp [not null, default: `now()`]
+
+    Indexes {
+        (user_id, created_at)
+    }
+}
+
+Table notification_deliveries {
+    id int [pk]
+    notification_id int [not null, ref:> notifications.id]
+
+    // in-app, push, email
+    channel varchar(255) [not null]
+    channel_data jsonb [not null]
+
+    // pending, processing, success, failed
+    status varchar(255) [not null]
+
+    retry_count shortint [not null, default: 0]
+    failed_at timestamp
+
+    updated_at timestamp [not null, default: `now()`]
+    created_at timestamp [not null, default: `now()`]
+
+    Indexes {
+        (notification_id, channel) [unique]
+        (channel, status, created_at)
+    }
 }
