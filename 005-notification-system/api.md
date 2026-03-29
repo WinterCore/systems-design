@@ -126,4 +126,19 @@ WHERE ids in <ids>
 
 # Backend API
 
-## 
+## * /orders
+> Create/Update orders
+
+Any endpoint that updates an order should create a new notification using the notifications API and deliver it to channels based on the user's preference. Order updates are highest priority which should be communicated to the notifications service as well.
+
+
+## PUT /notification-preferences
+
+Updates user preferences for different types of notifications. Everything can be updated except for order updates which are mandatory and can't be turned off.
+
+
+## POST /promotion-campaign
+
+Creates a single new record in `notification_campaigns` which then is picked up by a job that walks through the list users that the campaign should be delivered to and calls the notifications API for every user.
+This is a case of a fan-out on write.
+

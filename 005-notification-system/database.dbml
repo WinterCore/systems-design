@@ -35,23 +35,14 @@ Table notification_campaigns {
 }
 
 Table user_notification_preferences {
-    user_id int [not null, unique, ref:> users.id]
-
-    /**
-     * One bitmask column per notification type. Each one indicates which channels are enabled for that type. 
-     * 1 << 0 -> in-app
-     * 1 << 1 -> email
-     * 1 << 2 -> push
-     */
-    order_channels shortint [not null, default: 7]
-    promotional_channels shortint [not null, default: 0]
-    price_update_channels shortint [not null, default: 0]
+    user_id int [not null, ref:> users.id]
+    type varchar(255) [not null]
+    channel varchar(255) [not null]
+    enabled boolean [not null]
 
     Indexes {
-        // One index per notification type bitmask column
-        order_channels
-        promotional_channels
-        price_update_channels
+        (user_id, type, channel) [unique]
+        (type, channel, enabled)
     }
 }
 
@@ -66,7 +57,7 @@ Table notifications_config {
 }
 
 /**
- *
+ * Notifications service
  */
 Table notifications {
     id int [pk]
@@ -78,6 +69,7 @@ Table notifications {
     is_read boolean [not null, default: `false`]
 
     created_at timestamp [not null, default: `now()`]
+    user_id int [not null]
 
     Indexes {
         (user_id, created_at)
